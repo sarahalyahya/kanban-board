@@ -18,3 +18,9 @@
 
 - Family [Nunito] (https://fonts.google.com/specimen/Nunito?category=Sans+Serif&preview.text=In%20Progress&preview.text_type=custom)
 - Weights: 300, 400, 700
+
+## UI Inspo
+
+https://dribbble.com/shots/3611358-Task-Board
+https://dribbble.com/shots/15938166-Dedlen-Animated-Kanban-Board-Dashboard
+https://dribbble.com/shots/3303127-Dribbble-Hire-me
