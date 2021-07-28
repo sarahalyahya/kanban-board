@@ -5,3 +5,53 @@ html {
 body {
   font-family: "Nunito", Arial, Helvetica, sans-serif;
 }
+
+.container {
+  margin: 2rem 2rem;
+  background-color: #dadadc;
+  height: 100vh;
+  border-radius: 6px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__msg {
+  padding: 2rem 4rem;
+}
+
+.header__msg h1 {
+  margin-bottom: 0.2rem;
+}
+.header__msg h2 {
+  margin-top: 0;
+  font-style: italic;
+}
+
+.text--thin {
+  font-weight: 300;
+}
+
+.header .btn {
+  height: 40%;
+  margin: 0rem 4rem;
+}
+
+.btn {
+  font-family: inherit;
+  border: 0;
+  padding: 1.5rem 2rem;
+  border-radius: 6px;
+  background-color: #3b3c36;
+  color: white;
+  font-weight: 600;
+}
+
+.btn i {
+  margin-right: 0.4rem;
+}

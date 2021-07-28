@@ -10,14 +10,15 @@
 ### Neutral
 
 - White (Element BGs): #FFF
-- Light Grey (Main Background): #F0F1F8
+- Light Grey (Main Background): #dadadc;
+- Dark Grey (Buttons): #3B3C36;
 
 ## Typography
 
 ### Font
 
 - Family [Nunito] (https://fonts.google.com/specimen/Nunito?category=Sans+Serif&preview.text=In%20Progress&preview.text_type=custom)
-- Weights: 300, 400, 700
+- Weights: 200, 300, 400, 700
 
 ## UI Inspo
 
