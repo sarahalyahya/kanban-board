@@ -188,3 +188,29 @@ body {
     width: 60%;
   }
 }
+
+/* Badges */
+.badge {
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 2rem;
+  white-space: nowrap;
+}
+
+.badge--to-do {
+  background-color: #ffadad;
+}
+
+.badge--prog {
+  background-color: #ffd6a5;
+}
+.badge--comp {
+  background-color: #caffbf;
+}
+/* grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 100vh;
+}
