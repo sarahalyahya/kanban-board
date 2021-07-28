@@ -33,7 +33,7 @@
             <span class="text--thin">tasks to complete</span>
           </h2>
         </div>
-        <button class="btn show-modal">
+        <button class="btn btn--transparent show-modal">
           <i class="fas fa-plus"></i>
           New Task
         </button>
@@ -41,11 +41,51 @@
       <!-- Modal -->
       <div class="modal hidden">
         <button class="close-modal">&times;</button>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime,
-          enim?
-        </p>
+        <!-- Form -->
+        <form action="" class="form" method="POST">
+          <h1><i class="fas fa-tasks fa-xs"></i> Create New Task</h1>
+          <div class="form__top-row">
+            <div class="form__group form__task-name">
+              <label for="task-name"
+                ><i class="fas fa-thumbtack fa-xs"></i> Task Name</label
+              >
+              <input type="text" class="form__control" id="task-name" />
+            </div>
+            <div class="form__group">
+              <label for="task-status"
+                ><i class="fas fa-question-circle fa-sm"></i> Status</label
+              >
+              <select class="form__control" id="task-status">
+                <option value="">Select Status...</option>
+                <option selected value="1">
+                  <div id="circle" class="todo-circ"></div>
+                  To Do
+                </option>
+                <option value="2">
+                  <div id="circle" class="prog-circ"></div>
+                  In Progress
+                </option>
+                <option value="3">
+                  <div id="circle" class="comp-circ"></div>
+                  Complete
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form__group form__description">
+            <label for="task-description"
+              ><i class="far fa-edit"></i> Description</label
+            >
+            <textarea
+              class="form__control"
+              id="task-description"
+              rows="20"
+              cols="50"
+            ></textarea>
+          </div>
+        </form>
       </div>
+      <div id="circle" class="todo-circ"></div>
       <div class="overlay hidden"></div>
     </div>
     <script src="script.js"></script>
