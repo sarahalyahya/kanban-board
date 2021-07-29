@@ -44,34 +44,34 @@
         <!-- Form -->
         <form action="" class="form" method="POST">
           <h1><i class="fas fa-tasks fa-xs"></i> Create New Task</h1>
-          <div class="form__top-row">
-            <div class="form__group form__task-name">
-              <label for="task-name"
-                ><i class="fas fa-thumbtack fa-xs"></i> Task Name</label
-              >
-              <input type="text" class="form__control" id="task-name" />
-            </div>
-            <div class="form__group">
-              <label for="task-status"
-                ><i class="fas fa-question-circle fa-sm"></i> Status</label
-              >
-              <select class="form__control" id="task-status">
-                <option value="">Select Status...</option>
-                <option selected value="1">
-                  <div id="circle" class="todo-circ"></div>
-                  To Do
-                </option>
-                <option value="2">
-                  <div id="circle" class="prog-circ"></div>
-                  In Progress
-                </option>
-                <option value="3">
-                  <div id="circle" class="comp-circ"></div>
-                  Complete
-                </option>
-              </select>
-            </div>
+
+          <div class="form__group form__task-name">
+            <label for="task-name"
+              ><i class="fas fa-thumbtack fa-xs"></i> Task Name</label
+            >
+            <input type="text" class="form__control" id="task-name" />
           </div>
+          <div class="form__group form__status">
+            <label for="task-status"
+              ><i class="fas fa-question-circle fa-sm"></i> Status</label
+            >
+            <select class="form__control" id="task-status">
+              <option value="">Select Status...</option>
+              <option selected value="1">
+                <div id="circle" class="todo-circ"></div>
+                To Do
+              </option>
+              <option value="2">
+                <div id="circle" class="prog-circ"></div>
+                In Progress
+              </option>
+              <option value="3">
+                <div id="circle" class="comp-circ"></div>
+                Complete
+              </option>
+            </select>
+          </div>
+
           <div class="form__group form__description">
             <label for="task-description"
               ><i class="far fa-edit"></i> Description</label
@@ -103,6 +103,24 @@
           <div class="card" id="to-do">
             <div class="badge badge--to-do">to-do</div>
             <h3><i class="far fa-check-circle fa-sm"></i> Finish UI</h3>
+
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+              officiis dignissimos nam ea reiciendis possimus?
+            </p>
+          </div>
+          <div class="card" id="to-do" draggable="true">
+            <div class="badge badge--to-do">to-do</div>
+            <h3><i class="far fa-check-circle fa-sm"></i>Test</h3>
+
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+              officiis dignissimos nam ea reiciendis possimus?
+            </p>
+          </div>
+          <div class="card" id="to-do" draggable="true">
+            <div class="badge badge--to-do">to-do</div>
+            <h3><i class="far fa-check-circle fa-sm"></i>Test</h3>
 
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
