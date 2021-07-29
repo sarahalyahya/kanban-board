@@ -51,15 +51,18 @@ document.addEventListener("keydown", function (e) {
 const getFieldValue = (e) => {
   e.preventDefault();
   let cardTaskName = taskName.value;
-  let cardTaskStatus = taskStatus.value;
+  let cardTaskStatus = +taskStatus.value;
   let cardTaskDescription = taskDescription.value;
   createCard(cardTaskName, cardTaskStatus, cardTaskDescription);
+  taskName.value = "";
+  taskStatus.value = 1;
+  taskDescription.value = "";
   closeModal();
 };
 
 function createCard(taskName, taskStatus, taskDescription) {
   console.log(taskStatus);
-  const cardDetails = getCardDetails(+taskStatus);
+  const cardDetails = getCardDetails(taskStatus);
   console.log(cardDetails);
   let card = {
     cardTitle: taskName,
@@ -100,7 +103,13 @@ function displayCards(cards) {
   for (const item of cards) {
     console.log("Card", item);
     let cardDisplay = getCardTemplate(item);
-    todoCol.insertAdjacentHTML("beforeend", cardDisplay);
+    if (isTodoCard(item)) {
+      todoCol.insertAdjacentHTML("beforeend", cardDisplay);
+    } else if (isProgressCard(item)) {
+      progCol.insertAdjacentHTML("beforeend", cardDisplay);
+    } else if (isCompleteCard(item)) {
+      compCol.insertAdjacentHTML("beforeend", cardDisplay);
+    }
   }
 }
 
