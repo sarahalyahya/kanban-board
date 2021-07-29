@@ -57,18 +57,9 @@
             >
             <select class="form__control" id="task-status">
               <option value="">Select Status...</option>
-              <option selected value="1">
-                <div id="circle" class="todo-circ"></div>
-                To Do
-              </option>
-              <option value="2">
-                <div id="circle" class="prog-circ"></div>
-                In Progress
-              </option>
-              <option value="3">
-                <div id="circle" class="comp-circ"></div>
-                Complete
-              </option>
+              <option selected value="1">To Do</option>
+              <option value="2">In Progress</option>
+              <option value="3">Complete</option>
             </select>
           </div>
 
@@ -82,6 +73,10 @@
               rows="20"
               cols="50"
             ></textarea>
+          </div>
+          <div class="form__btn-group">
+            <button class="btn btn--grey form__create">Create</button>
+            <button class="btn btn--danger form__cancel">Cancel</button>
           </div>
         </form>
       </div>
