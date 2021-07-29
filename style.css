@@ -259,6 +259,7 @@ hr {
   .modal {
     width: 100%;
   }
+
   .form__top-row {
     padding: 1rem 6rem;
   }
@@ -275,7 +276,7 @@ hr {
 }
 @media screen and (max-width: 1440px) {
   .modal {
-    width: 60%;
+    width: 100%;
   }
   .grid {
     margin-left: 0;
