@@ -42,7 +42,7 @@
       <div class="modal hidden">
         <button class="close-modal">&times;</button>
         <!-- Form -->
-        <form action="" class="form" method="POST">
+        <form class="form">
           <h1><i class="fas fa-tasks fa-xs"></i> Create New Task</h1>
 
           <div class="form__group form__task-name">
@@ -70,8 +70,8 @@
             <textarea
               class="form__control"
               id="task-description"
-              rows="20"
-              cols="50"
+              rows="7"
+              cols="65"
             ></textarea>
           </div>
           <div class="form__btn-group">
@@ -95,36 +95,9 @@
               officiis dignissimos nam ea reiciendis possimus?
             </p>
           </div>
-          <div class="card" id="to-do">
+          <div class="card" id="to-do" draggable="true">
             <div class="badge badge--to-do">to-do</div>
             <h3><i class="far fa-check-circle fa-sm"></i> Finish UI</h3>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              officiis dignissimos nam ea reiciendis possimus?
-            </p>
-          </div>
-          <div class="card" id="to-do" draggable="true">
-            <div class="badge badge--to-do">to-do</div>
-            <h3><i class="far fa-check-circle fa-sm"></i>Test</h3>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              officiis dignissimos nam ea reiciendis possimus?
-            </p>
-          </div>
-          <div class="card" id="to-do" draggable="true">
-            <div class="badge badge--to-do">to-do</div>
-            <h3><i class="far fa-check-circle fa-sm"></i>Test</h3>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              officiis dignissimos nam ea reiciendis possimus?
-            </p>
-          </div>
-          <div class="card" id="to-do">
-            <div class="badge badge--to-do">to-do</div>
-            <h3><i class="far fa-check-circle fa-sm"></i> JS Code</h3>
 
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
@@ -138,7 +111,7 @@
             <hr />
           </div>
           <div class="card" id="in-prog">
-            <div class="badge badge--prog">in progress</div>
+            <div class="badge badge--in-prog">in progress</div>
             <h3><i class="far fa-check-circle fa-sm"></i> Write Summary</h3>
 
             <p>
@@ -147,7 +120,7 @@
             </p>
           </div>
           <div class="card" id="in-prog">
-            <div class="badge badge--prog">in progress</div>
+            <div class="badge badge--in-prog">in progress</div>
             <h3><i class="far fa-check-circle fa-sm"></i> Finish JS Course</h3>
 
             <p>
@@ -156,7 +129,7 @@
             </p>
           </div>
         </div>
-        <div class="column" id="col__done">
+        <div class="column" id="col__comp">
           <div class="col__header">
             <h1>Completed</h1>
             <hr />

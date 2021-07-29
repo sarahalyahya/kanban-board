@@ -112,7 +112,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
-
+  height: 80%;
+  overflow-y: scroll;
   background-color: #dad4da;
   padding: 2rem;
   border-radius: 5px;
@@ -198,6 +199,9 @@ body {
 .form textarea {
   padding: 2rem 2rem;
 }
+.form__task-name {
+  margin-top: 5rem;
+}
 
 .form__control {
   border: 2px solid #e6e6e7;
@@ -244,7 +248,7 @@ body {
   background-color: #ffadad;
 }
 
-.badge--prog {
+.badge--in-prog {
   background-color: #ffd6a5;
 }
 .badge--comp {
