@@ -120,6 +120,9 @@ body {
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
+.modal::-webkit-scrollbar {
+  display: none;
+}
 
 .modal h1 {
   margin-top: 0.3rem;
@@ -293,6 +296,12 @@ body {
 .column {
   justify-self: center;
   margin: 0 auto;
+  width: 100%;
+  transition: all 0.4s;
+}
+
+.dragging {
+  background: #dad4da;
 }
 
 .col__header h1 {
