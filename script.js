@@ -2,8 +2,6 @@
 
 //imports modules
 import {
-  getParentById,
-  getCardTemplate,
   removeDraggingClassFromColumns,
   addDraggingClassToTargetColumn,
   getCardDetails,
@@ -51,7 +49,6 @@ const cardStatus = {
 
 let draggedItem = {};
 let targetLocation = null;
-let parentId = null;
 
 //close modal function
 const toggleModal = (action) => {
@@ -84,7 +81,13 @@ const getNewCard = () => {
   const cardTaskName = taskName.value;
   const cardTaskStatus = +taskStatus.value;
   const cardTaskDescription = taskDescription.value;
-  const cardDetails = getCardDetails(taskStatus);
+  const cardDetails = getCardDetails(cardTaskStatus);
+
+  if (!cardTaskName.trim()) {
+    alert("you should add title");
+    return;
+  }
+  console.log("cardDetails", cardDetails);
   return {
     id: randomIdGenerator("card"),
     cardTitle: cardTaskName,
@@ -98,21 +101,60 @@ const getNewCard = () => {
 //creates the card variable and uses the card creator, pushes it into card array and displays
 function setCardToState() {
   const card = getNewCard();
-  cards.push(card);
-  displayCards(cards);
-}
-function removeAllCards() {
-  for (const el of document.querySelectorAll(".card")) {
-    el.remove();
-  }
+  const cardElement = createNewCard(card);
+  const updatedCard = { ...card, cardElement };
+  cards.push(updatedCard);
+  getParentToInsertCard(card.cardStatus, updatedCard);
 }
 
 //checks parent and inserts card in HTML based on that
-const getParentToInsertCard = (status, cardDisplay) => {
+const getParentToInsertCard = (status, card) => {
   const parent = getParentByStatus(status);
-  parent.appendChild(cardDisplay);
+  parent.appendChild(card.cardElement);
+  dragStartEventListener(card, parent);
+  dragEndEventListener(card);
 };
 
+const dragStartEventListener = (card, parent) => {
+  card.cardElement.addEventListener("dragstart", () => {
+    draggedItem = card;
+  });
+};
+
+const dragEndEventListener = (card) => {
+  card.cardElement.addEventListener("dragend", () => {
+    const currentCard = { ...card };
+    const oldParent = getParentByStatus(currentCard.cardStatus);
+    oldParent.removeChild(currentCard.cardElement);
+    const newParent = getParentByStatus(targetLocation);
+
+    cards = cards.map((card) => {
+      if (card.id === currentCard.id) {
+        const cardDetails = getCardDetails(targetLocation);
+        const updatedCard = {
+          ...card,
+          ...cardDetails,
+          cardStatus: targetLocation,
+        };
+        const newCardElement = createNewCard(updatedCard);
+        updatedCard.cardElement = newCardElement;
+        dragStartEventListener(updatedCard, newParent);
+        dragEndEventListener(updatedCard);
+        console.log("updateCard", updatedCard);
+        newParent.appendChild(updatedCard.cardElement);
+
+        return updatedCard;
+      } else {
+        return { ...card };
+      }
+    });
+    removeDraggingClassFromColumns(columnsElement);
+    draggedItem = {};
+    targetLocation = null;
+    console.log(cards);
+  });
+};
+// );
 //specifies the card location (which column, where HTML should be inserted)
 const setCardToTargetedColumn = (item, cardDisplay) => {
   if (isTargetCard(item, cardStatus.ToDo)) {
@@ -125,54 +167,6 @@ const setCardToTargetedColumn = (item, cardDisplay) => {
     getParentToInsertCard(cardStatus.Completed, cardDisplay);
   }
 };
-
-//loops through every item in card array, gets its template, sets it to specific column and inserts HTML (again?)
-function displayCards(cards) {
-  removeAllCards();
-  for (const item of cards) {
-    const cardDisplay = getCardTemplate(item);
-    setCardToTargetedColumn(item, cardDisplay);
-  }
-
-  addEventListenersForCards();
-}
-
-//adds a drag start to all card elements, sets its id and defines the dragged card
-function addEventListenersForCards() {
-  const cardElements = document.querySelectorAll(".card");
-
-  for (const [index, cardElement] of cardElements.entries()) {
-    cardElement.addEventListener("dragstart", (e) => {
-      parentId = e.path[1].id;
-      draggedItem = cards[index];
-    });
-
-    //saves old element into its own variable, and checks the parent
-    cardElement.addEventListener("dragend", (e) => {
-      cards = cards.map((card) => {
-        if (card.id === draggedItem.id) {
-          const cardDetails = getCardDetails(targetLocation);
-          return {
-            ...card,
-            ...cardDetails,
-            cardStatus: targetLocation,
-          };
-        } else {
-          return { ...card };
-        }
-      });
-
-      displayCards(cards);
-
-      removeDraggingClassFromColumns(columnsElement);
-      parentId = null;
-      draggedItem = {};
-      targetLocation = null;
-    });
-  }
-}
-
-// add Event listener
 
 todoColumnElement.addEventListener("dragover", (e) => {
   removeDraggingClassFromColumns(columnsElement);

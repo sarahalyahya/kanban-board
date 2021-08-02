@@ -88,6 +88,7 @@ export const addDraggingClassToTargetColumn = (columName) => {
 
 //card details based on status
 export const getCardDetails = (status) => {
+  console.log(status);
   switch (status) {
     case cardStatus.Progress:
       return {
