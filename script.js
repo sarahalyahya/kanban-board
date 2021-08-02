@@ -1,23 +1,19 @@
 "use strict";
 
-//imports modules
 import {
   removeDraggingClassFromColumns,
   addDraggingClassToTargetColumn,
   getCardDetails,
-  isTargetCard,
   getParentByStatus,
   randomIdGenerator,
   createNewCard,
 } from "./utils.js";
 
-//modal vars
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const closeModalBtn = document.querySelector(".close-modal");
 const openModalBtn = document.querySelector(".show-modal");
 
-//form vars
 const taskName = document.getElementById("task-name");
 const taskStatus = document.getElementById("task-status");
 const taskDescription = document.getElementById("task-description");
@@ -25,22 +21,20 @@ const taskDescription = document.getElementById("task-description");
 const taskSubmit = document.querySelector(".form__create");
 const taskCancel = document.querySelector(".form__cancel");
 
-//column vars
 const todoColumnElement = document.getElementById("col__to-do");
 const progressColumnElement = document.getElementById("col__prog");
 const completeColumnElement = document.getElementById("col__comp");
 
-//an array of all  columns
+const totalTaskElement = document.getElementById("total-task");
+
 const columnsElement = [
   todoColumnElement,
   progressColumnElement,
   completeColumnElement,
 ];
 
-// State
 let cards = [];
 
-//an object to reference status name, not number
 const cardStatus = {
   ToDo: 1,
   Progress: 2,
@@ -50,7 +44,6 @@ const cardStatus = {
 let draggedItem = {};
 let targetLocation = null;
 
-//close modal function
 const toggleModal = (action) => {
   if (action === "closeModal") {
     modal.classList.add("hidden");
@@ -61,27 +54,23 @@ const toggleModal = (action) => {
   }
 };
 
-//returns form to its initial state
 const resetForm = () => {
   taskName.value = "";
   taskStatus.value = cardStatus.ToDo;
   taskDescription.value = "";
 };
 
-const onCancelHandler = (e) => {
+const onCloseModalHandler = (e) => {
   e.preventDefault();
-  resetForm();
-  toggleModal("closeModal");
-};
-//creates and displays a card, resets form, closes modal
-const onSubmitHandler = (e) => {
-  e.preventDefault();
-  setCardToState();
   resetForm();
   toggleModal("closeModal");
 };
 
-//card creator. Creates card, gets its details based on status and returns a card object
+const onSubmitHandler = (e) => {
+  setCardToState();
+  onCloseModalHandler(e);
+};
+
 const getNewCard = () => {
   const cardTaskName = " " + taskName.value;
   const cardTaskStatus = +taskStatus.value;
@@ -105,59 +94,60 @@ function validateCardTitle(cardTaskName) {
   }
 }
 
-//creates the card variable and uses the card creator, pushes it into card array and displays
 function setCardToState() {
   const card = getNewCard();
-  const cardElement = createNewCard(card);
-  const updatedCard = { ...card, cardElement };
+  const updatedCard = getUpdatedCard(card, card.cardStatus);
   cards.push(updatedCard);
-  getParentToInsertCard(card.cardStatus, updatedCard);
+  updateTotalTasks();
+  appendCardToColumn(card.cardStatus, updatedCard);
 }
 
-//checks parent and inserts card in HTML based on that
-const getParentToInsertCard = (status, card) => {
+const appendCardToColumn = (status, card) => {
   const parent = getParentByStatus(status);
   parent.appendChild(card.cardElement);
-  dragEventListeners(card);
+  addDragEventListeners(card);
 };
 
 const removeCardFromPreviousParent = (currentCard) => {
   const oldParentColumn = getParentByStatus(currentCard.cardStatus);
   oldParentColumn.removeChild(currentCard.cardElement);
 };
-const updateCardAfterDragging = (card, currentCard, newParentColumn) => {
-  cards = cards.map((card) => {
-    if (card.id === currentCard.id) {
-      const cardDetails = getCardDetails(targetLocation);
-      const updatedCard = {
-        ...card,
-        ...cardDetails,
-        cardStatus: targetLocation,
-      };
-      const newCardElement = createNewCard(updatedCard);
-      updatedCard.cardElement = newCardElement;
-      dragEventListeners(updatedCard);
-      newParentColumn.appendChild(updatedCard.cardElement);
 
-      return updatedCard;
+const updateCardAfterDragging = (currentCard, newParentColumn) => {
+  cards = cards.map((card) => {
+    if (isSelectedCard(card, currentCard)) {
+      return selectedCardHandler(card, newParentColumn);
     } else {
       return { ...card };
     }
   });
 };
 
-//specifies the card location (which column, where HTML should be inserted)
-const setCardToTargetedColumn = (item, cardDisplay) => {
-  if (isTargetCard(item, cardStatus.ToDo)) {
-    getParentToInsertCard(cardStatus.ToDo, cardDisplay);
-  }
-  if (isTargetCard(item, cardStatus.Progress)) {
-    getParentToInsertCard(cardStatus.Progress, cardDisplay);
-  }
-  if (isTargetCard(item, cardStatus.Completed)) {
-    getParentToInsertCard(cardStatus.Completed, cardDisplay);
-  }
-};
+function selectedCardHandler(card, parent) {
+  const updatedCard = getUpdatedCard(card, targetLocation);
+  addDragEventListeners(updatedCard);
+  parent.appendChild(updatedCard.cardElement);
+  return updatedCard;
+}
+
+function getUpdatedCard(card, status) {
+  const cardDetails = getCardDetails(status);
+  const updatedCard = {
+    ...card,
+    ...cardDetails,
+    cardStatus: status,
+  };
+  const newCardElement = getCardNodeElement(updatedCard);
+  return { ...updatedCard, cardElement: newCardElement };
+}
+
+function getCardNodeElement(card) {
+  return createNewCard(card);
+}
+
+function isSelectedCard(card, currentCard) {
+  return card.id === currentCard.id;
+}
 
 const addEventListenersToParentColumns = (columnsElement) => {
   columnsElement[0].addEventListener("dragover", (e) => {
@@ -179,29 +169,41 @@ const addEventListenersToParentColumns = (columnsElement) => {
   });
 };
 
-addEventListenersToParentColumns(columnsElement);
-
-const dragStartEventListener = (card) => {
+const dragStartHandler = (card) => {
   card.cardElement.addEventListener("dragstart", () => {
     draggedItem = card;
   });
 };
 
-const dragEndEventListener = (card) => {
+const dragEndHandler = (card) => {
   card.cardElement.addEventListener("dragend", () => {
     const currentCard = { ...card };
-    removeCardFromPreviousParent(currentCard);
     const newParentColumn = getParentByStatus(targetLocation);
-    updateCardAfterDragging(card, currentCard, newParentColumn);
+
+    removeCardFromPreviousParent(currentCard);
     removeDraggingClassFromColumns(columnsElement);
+    updateCardAfterDragging(currentCard, newParentColumn);
     draggedItem = {};
     targetLocation = null;
+    updateTotalTasks();
   });
 };
 
-const dragEventListeners = (card) => {
-  dragStartEventListener(card);
-  dragEndEventListener(card);
+function updateTotalTasks() {
+  let total = 0;
+  for (const card of cards)
+    if (!isCompleted(card, cardStatus.Completed)) total += 1;
+  totalTaskElement.innerText = total;
+}
+
+function isCompleted(card, cardStatus) {
+  if (card.cardStatus === cardStatus) return true;
+  return false;
+}
+
+const addDragEventListeners = (card) => {
+  dragStartHandler(card);
+  dragEndHandler(card);
 };
 
 const modalEventListeners = (openModal, closeModal, overlay) => {
@@ -215,9 +217,11 @@ const modalEventListeners = (openModal, closeModal, overlay) => {
   overlay.addEventListener("click", () => {
     toggleModal("closeModal");
   });
+
+  addEventListenersToParentColumns(columnsElement);
   taskSubmit.addEventListener("click", onSubmitHandler);
 
-  taskCancel.addEventListener("click", onCancelHandler);
+  taskCancel.addEventListener("click", onCloseModalHandler);
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) {
@@ -226,5 +230,5 @@ const modalEventListeners = (openModal, closeModal, overlay) => {
     }
   });
 };
-
+updateTotalTasks();
 modalEventListeners(openModalBtn, closeModalBtn, overlay);
