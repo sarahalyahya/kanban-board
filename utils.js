@@ -57,12 +57,13 @@ export const createNewCard = (card) => {
   badgeElement.classList.add("badge", `${card.badgeClassName}`);
   badgeElement.textContent = card.badgeLabel;
 
+  //?
   const iconElement = document.createElement("i");
   iconElement.classList.add("far", "fa-check-circle", "fa-sm");
 
   const headerElement = document.createElement("h3");
   headerElement.appendChild(iconElement);
-  iconElement.textContent = card.cardTitle;
+  headerElement.textContent = card.cardTitle;
 
   const paragraphElement = document.createElement("p");
   paragraphElement.textContent = card.cardDesc;
@@ -88,7 +89,6 @@ export const addDraggingClassToTargetColumn = (columName) => {
 
 //card details based on status
 export const getCardDetails = (status) => {
-  console.log(status);
   switch (status) {
     case cardStatus.Progress:
       return {
@@ -104,7 +104,7 @@ export const getCardDetails = (status) => {
       };
     default:
       return {
-        badgeLabel: "To-do",
+        badgeLabel: "To-Do",
         cardId: "to-do",
         badgeClassName: "badge--to-do",
       };
