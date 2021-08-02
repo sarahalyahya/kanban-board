@@ -211,11 +211,11 @@ const modalEventListeners = (openModal, closeModal, overlay) => {
     toggleModal("openModal");
   });
 
-  closeModal.addEventListener("click", () => {
-    toggleModal("closeModal");
+  closeModal.addEventListener("click", (e) => {
+    onCloseModalHandler(e);
   });
-  overlay.addEventListener("click", () => {
-    toggleModal("closeModal");
+  overlay.addEventListener("click", (e) => {
+    onCloseModalHandler(e);
   });
 
   addEventListenersToParentColumns(columnsElement);
@@ -223,10 +223,9 @@ const modalEventListeners = (openModal, closeModal, overlay) => {
 
   taskCancel.addEventListener("click", onCloseModalHandler);
 
-  document.addEventListener("keydown", function (e) {
+  document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      resetForm();
-      toggleModal("closeModal");
+      onCloseModalHandler(e);
     }
   });
 };
