@@ -44,17 +44,34 @@ export const getParentByStatus = (status) => {
 
 //card template
 export const getCardTemplate = (cardDet) => {
-  const template = `
-    <div class="card ${cardDet.id}" id="${cardDet.cardId}" draggable="true">
-    <div class="badge ${cardDet.badgeClassName}">${cardDet.badgeLabel}</div>
-    <h3><i class="far fa-check-circle fa-sm"></i> ${cardDet.cardTitle}</h3>
+  return createNewCard(cardDet);
+};
 
-    <p>
-    ${cardDet.cardDesc}
-    </p>
-  </div>
-  `;
-  return template;
+export const createNewCard = (card) => {
+  const divElement = document.createElement("div");
+  divElement.classList.add("card", `${card.id}`);
+  divElement.id = card.cardId;
+  divElement.draggable = true;
+
+  const badgeElement = document.createElement("div");
+  badgeElement.classList.add("badge", `${card.badgeClassName}`);
+  badgeElement.textContent = card.badgeLabel;
+
+  const iconElement = document.createElement("i");
+  iconElement.classList.add("far", "fa-check-circle", "fa-sm");
+
+  const headerElement = document.createElement("h3");
+  headerElement.appendChild(iconElement);
+  iconElement.textContent = card.cardTitle;
+
+  const paragraphElement = document.createElement("p");
+  paragraphElement.textContent = card.cardDesc;
+
+  divElement.appendChild(badgeElement);
+  divElement.appendChild(headerElement);
+  divElement.appendChild(paragraphElement);
+
+  return divElement;
 };
 
 //removes dragging styling for all cols

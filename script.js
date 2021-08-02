@@ -10,6 +10,7 @@ import {
   isTargetCard,
   getParentByStatus,
   randomIdGenerator,
+  createNewCard,
 } from "./utils.js";
 
 //modal vars
@@ -100,11 +101,16 @@ function setCardToState() {
   cards.push(card);
   displayCards(cards);
 }
+function removeAllCards() {
+  for (const el of document.querySelectorAll(".card")) {
+    el.remove();
+  }
+}
 
 //checks parent and inserts card in HTML based on that
 const getParentToInsertCard = (status, cardDisplay) => {
   const parent = getParentByStatus(status);
-  parent.insertAdjacentHTML("beforeend", cardDisplay);
+  parent.appendChild(cardDisplay);
 };
 
 //specifies the card location (which column, where HTML should be inserted)
@@ -122,6 +128,7 @@ const setCardToTargetedColumn = (item, cardDisplay) => {
 
 //loops through every item in card array, gets its template, sets it to specific column and inserts HTML (again?)
 function displayCards(cards) {
+  removeAllCards();
   for (const item of cards) {
     const cardDisplay = getCardTemplate(item);
     setCardToTargetedColumn(item, cardDisplay);
@@ -142,15 +149,7 @@ function addEventListenersForCards() {
 
     //saves old element into its own variable, and checks the parent
     cardElement.addEventListener("dragend", (e) => {
-      const oldElement = document.querySelector(`.${draggedItem.id}`);
-      const parent = getParentById(parentId);
-
-      //remove from the old parent column
-      if (parent) {
-        parent.removeChild(oldElement);
-      }
-
-      cards.map((card) => {
+      cards = cards.map((card) => {
         if (card.id === draggedItem.id) {
           const cardDetails = getCardDetails(targetLocation);
           return {
