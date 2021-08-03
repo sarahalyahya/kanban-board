@@ -138,14 +138,6 @@ body {
   z-index: 5;
 }
 
-/* Circles */
-#circle {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 0;
-}
-
 .todo-cir {
   background-color: #ffadad;
 }
@@ -349,4 +341,8 @@ hr {
     margin-left: 0;
     grid-gap: 15rem;
   }
+}
+
+.fa-check-circle {
+  padding-right: 5px;
 }

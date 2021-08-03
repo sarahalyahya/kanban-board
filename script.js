@@ -10,6 +10,7 @@ import {
 } from "./utils.js";
 
 const modal = document.querySelector(".modal");
+const modalTitle = document.querySelector(".form__title");
 const overlay = document.querySelector(".overlay");
 const closeModalBtn = document.querySelector(".close-modal");
 const openModalBtn = document.querySelector(".show-modal");
@@ -67,6 +68,7 @@ const onCloseModalHandler = (e) => {
 };
 
 const onSubmitHandler = (e) => {
+  console.clear();
   setCardToState();
   onCloseModalHandler(e);
 };
@@ -106,6 +108,7 @@ const appendCardToColumn = (status, card) => {
   const parent = getParentByStatus(status);
   parent.appendChild(card.cardElement);
   addDragEventListeners(card);
+  clickEventOnCardForEditModal(card);
 };
 
 const removeCardFromPreviousParent = (currentCard) => {
@@ -126,6 +129,7 @@ const updateCardAfterDragging = (currentCard, newParentColumn) => {
 function selectedCardHandler(card, parent) {
   const updatedCard = getUpdatedCard(card, targetLocation);
   addDragEventListeners(updatedCard);
+  clickEventOnCardForEditModal(updatedCard);
   parent.appendChild(updatedCard.cardElement);
   return updatedCard;
 }
@@ -189,6 +193,31 @@ const dragEndHandler = (card) => {
   });
 };
 
+const clickEventOnCardForEditModal = (card) => {
+  card.cardElement.addEventListener("click", () => {
+    toggleModal("openModal");
+    modalTitle.innerHTML = "Edit Task";
+    taskName.value = card.cardTitle;
+    taskStatus.value = card.cardStatus;
+    taskDescription.value = card.cardDesc;
+    taskSubmit.innerHTML = "Update";
+    taskSubmit.removeEventListener("click", onSubmitHandler);
+    taskSubmit.addEventListener("click", (e) => {
+      console.log(taskName.value, taskStatus.value, taskDescription.value);
+      const parent = getParentByStatus(card.cardStatus);
+      parent.removeChild(card.cardElement);
+      setCardToState();
+
+      cards = cards.filter((cardEl) => cardEl.id !== card.id);
+
+      updateTotalTasks();
+      modalEventListeners(openModalBtn, closeModalBtn, overlay);
+
+      onCloseModalHandler(e);
+    });
+  });
+};
+
 function updateTotalTasks() {
   let total = 0;
   for (const card of cards)
@@ -209,6 +238,8 @@ const addDragEventListeners = (card) => {
 const modalEventListeners = (openModal, closeModal, overlay) => {
   openModal.addEventListener("click", () => {
     toggleModal("openModal");
+    modalTitle.innerHTML = "Create a New Task";
+    taskSubmit.innerHTML = "Create";
   });
 
   closeModal.addEventListener("click", (e) => {
